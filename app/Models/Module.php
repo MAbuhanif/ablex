@@ -14,16 +14,17 @@ class Module extends Model
         'thumbnail_url',
         'file_url',
         'slug',
-        'user_id', 
-        'author_name', 
+        'user_id',
+        'author_name',
         'published_at',
     ];
 
-    public function author(){
-    return $this->belongsTo(User::class, 'user_id');
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-         public static function boot()
+    protected static function boot()
     {
         parent::boot();
 
@@ -35,22 +36,33 @@ class Module extends Model
             $module->slug = Str::slug($module->title);
         });
     }
-    protected $appends = ['thumbnail', 'file'];
-     
-    public function getThumbnailAttribute() {
+
+    // thumbnail url
+
+    public function getThumbnailUrlAttribute(?string $value): ?string
+    {
+        if (! $value) {
+            return null;
+        }
+
         /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
         $disk = Storage::disk('r2');
-        return $this->thumbnail_url ? $disk->url($this->thumbnail_url) : null;
+
+        return $disk->url($value);
     }
-    
-    public function getFileAttribute() {
+
+    // file url
+    public function getFileUrlAttribute(?string $value): ?string
+    {
+        if (! $value) {
+            return null;
+        }
+
         /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
         $disk = Storage::disk('r2');
-        return $this->file_url ? $disk->url($this->file_url) : null;
+
+        return $disk->url($value);
     }
 
-
-
-
-
-}
+   protected $appends = [];
+ }

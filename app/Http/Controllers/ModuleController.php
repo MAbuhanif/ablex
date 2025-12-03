@@ -7,19 +7,33 @@ use Inertia\Inertia;
 
 class ModuleController extends Controller
 {
-   public function index()
-{
-    $modules = Module::latest('published_at')->get();
-    return Inertia::render('dashboard', ['modules' => $modules]);
-}
+    public function index()
+    {
+        $modules = Module::with('author:id,name')
+            ->latest('published_at')
+            ->get([
+                'published_at',
+                'author_name',
+                'id',
+                'title',
+                'slug',
+                'description',
+                'thumbnail_url',
+                'user_id',
+                 'file_url'
+            ]);
 
-   public function show($slug)
-{
-    $module = Module::where('slug', $slug)->firstOrFail();
+        return Inertia::render('Dashboard', [
+            'modules' => $modules
+        ]);
+    }
 
-    return Inertia::render('PostDetail', [
-        'module' => $module,
-    ]);
-}
+    public function show($slug)
+    {
+        $module = Module::where('slug', $slug)->firstOrFail();
 
+        return Inertia::render('PostDetail', [
+            'module' => $module,
+        ]);
+    }
 }

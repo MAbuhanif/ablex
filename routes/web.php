@@ -12,11 +12,10 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
 
-    // Module read page
+    
+    Route::get('dashboard', [ModuleController::class, 'index'])
+        ->name('dashboard');
     Route::get('modules/{slug}', [ModuleController::class, 'show'])
         ->name('modules.show');
 });

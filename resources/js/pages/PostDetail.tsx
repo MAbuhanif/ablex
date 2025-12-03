@@ -1,32 +1,32 @@
 import { Head, router, usePage } from '@inertiajs/react';
 
-interface module {
+interface ModuleType {
     id: number;
     title: string;
     slug: string;
     description: string;
-    thumbnail: string;
+    thumbnail_url: string;
+    file_url: string;
+    user_id: number;
     author_name: string;
-    published_date: string;
-    file?: string | null;
+    published_at: string;
 }
 
 export default function PostDetails() {
-    const { props } = usePage<{ module: module }>();
+    const { props } = usePage<{ module: ModuleType }>();
     const module = props.module;
 
     const fixedDescription = module.description.replace(
         /src="(?:\/)?storage\/([^"]+)"/g,
         (match, path) => {
-
             return `src="/storage/${path}"`;
         },
     );
 
     // Calculate "days ago"
     const daysAgo = Math.floor(
-        (new Date().getTime() - new Date(module.published_date).getTime()) /
-        (1000 * 60 * 60 * 24),
+        (new Date().getTime() - new Date(module.published_at).getTime()) /
+            (1000 * 60 * 60 * 24),
     );
 
     return (
@@ -38,11 +38,7 @@ export default function PostDetails() {
                 <div className="relative mb-6 h-64 overflow-hidden rounded-lg sm:h-72 md:h-80">
                     <img
                         className="h-full w-full object-cover transition-transform duration-300"
-                        src={
-                            module.thumbnail.startsWith('/storage')
-                                ? module.thumbnail
-                                : `/storage/${module.thumbnail}`
-                        }
+                        src={module.thumbnail_url}
                         alt={module.title}
                     />
                     <span className="absolute top-3 left-3 rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-800 dark:bg-blue-200 dark:text-blue-900">
@@ -76,13 +72,9 @@ export default function PostDetails() {
                         Back to Dashboard
                     </button>
 
-                    {module.file && (
+                    {module.file_url && (
                         <a
-                            href={
-                                module.file.startsWith('/storage')
-                                    ? module.file
-                                    : `/storage/${module.file}`
-                            }
+                            href={module.file_url}
                             download
                             className="inline-flex items-center rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700"
                         >
