@@ -65,4 +65,25 @@ class Module extends Model
     }
 
    protected $appends = [];
- }
+   public function comments() {
+    return $this->morphMany(Comment::class, 'commentable')->latest();
+}
+
+// Polymorphic relationship for likes
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
+
+    // Check if a user liked this module
+    public function likedByUser($userId)
+    {
+        return $this->likes()->where('user_id', $userId)->exists();
+    }
+
+    // Count total likes
+    public function likesCount()
+    {
+        return $this->likes()->count();
+    }
+}
