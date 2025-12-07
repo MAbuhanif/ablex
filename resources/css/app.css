@@ -95,6 +95,19 @@
     --sidebar-accent-foreground: oklch(0.205 0 0);
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.87 0 0);
+    /* my config */
+
+  --jet-stream-50: 177 100% 96%;
+  --jet-stream-100: 175 70% 87%;
+  --jet-stream-200: 174 43% 81%;
+  --jet-stream-300: 174 35% 78%;
+  --jet-stream-400: 175 23% 71%;
+  --jet-stream-500: 174 16% 62%;
+  --jet-stream-600: 175 10% 51%;
+  --jet-stream-700: 174 10% 40%;
+  --jet-stream-800: 175 9% 27%;
+  --jet-stream-900: 174 14% 14%;
+  --jet-stream-950: 170 14% 9%;
 }
 
 .dark {
